@@ -31,7 +31,7 @@ ffmpeg -start_number 1 -i img.%04d.png foo.mov
 ```
 Would start from frame number img.0001.png
 
-If not defined the end frame will be the last continuous frame in the frame sequence, so if you have a missing frame it will stop there. 
+If not defined the end frame will be the last continuous frame in the frame sequence, so if you have a missing frame it will stop there.
 You can define the number of frames to capture using the `-frames:v` flag.
 
 N.B. In a windows command shell, % has a special meaning, so you may need to escape the "%", by replacing it with %%, or quote it, e.g.:
@@ -49,31 +49,36 @@ ffmpeg -pattern_type glob -i "img.*.png" foo.mov
 ```
 Will grab all frames that start with img. and end with ".png"
 
-
-
 ## Frame Rate
 
-The following aliases are defined for framerate values, either `-r` or `-framerate` parameters.
+The frame rate of an input image sequence can be specified using the `-framerate` option before the input.
+The frame rate can be specified as a decimal number or as a fraction. The following aliases are also defined
+for common frame rates:
 
-| ntsc | 30000/1001 | 29.97 fps equivalent. |
-| pal | 25| |
-| qntsc | 30000/1001 | VCD compliant NTSC |
-| qpal |  25 | VCD compliant PAL |
-| sntsc | 30000/1001 | square pixel NTSC |
-| spal |   25 | square pixel PAL |
-| film |  24 | |
-| ntsc-film |  24000/1001 | correct  23.98 |
+| Alias     | Exact value | Description          |
+| :-------- | :---------- | :------------------- |
+| ntsc      | 30000/1001  | 29.97 fps equivalent |
+| pal       | 25          |                      |
+| qntsc     | 30000/1001  | VCD compliant NTSC   |
+| qpal      | 25          | VCD compliant PAL    |
+| sntsc     | 30000/1001  | square pixel NTSC    |
+| spal      | 25          | square pixel PAL     |
+| film      | 24          |                      |
+| ntsc-film | 24000/1001  | correct  23.98       |
 
-Is is prefereable to use a fractional rate, or one of the above settings where possible, for example `-r 30000/1001` is the more precise version of 29.97. 
+It is preferable to use the fractional representation or one of the above aliases for frame rates that aren't a whole number.
+For example `-framerate 30000/1001` is more precise than 29.97 and will prevent your video from slowly going out of sync over time.
 
-Other common fractional rates not defined with presets include:
+Some other common fractional rates that do not have aliases defined include:
 
-| 60000/1001 | 59.94 fps equiavalent. |
+| 60000/1001  | 59.94 fps equivalent  |
 | 120000/1001 | 119.88 fps equivalent |
 
-If not specified, the default framerate chosen is 25 fps (i.e. pal).
+If not specified, the default frame rate chosen is 25 fps (i.e. pal).
 
-TODO Confirm no difference between -r and -framerate. -framerate seems a little more proper.
+You may also see `-r` used in some examples. The `-framerate` option is for manually specifying the frame rate for the image2 demuxer (which is responsible for handling image sequence inputs),
+whereas `-r` acts more generally on video streams and modifies existing frame rates by regenerating the frame timestamps or duplicating/dropping frames
+(depending on if it is used as an input or output option). For input image sequences, you almost always want `-framerate` over `-r`.
 
 ## Looping
 
@@ -83,4 +88,3 @@ ffmpeg -y -pattern_type glob -loop 1 -framerate ntsc -i "../sourceimages/chip-ch
 ```
 
 Note, you want to control the number of frames to output, for a long sequence you would put the `-frames:v 100` before the "-i" flag, but here we are putting it before the output, since we want it to apply to the overall looping input, not the input sequence.
-
