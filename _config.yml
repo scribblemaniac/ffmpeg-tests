@@ -7,7 +7,7 @@ exclude: ["ICC", "*.yml", "enctests/*/*.mov",
           "enctests/sources/hdr_sources/*/*.exr", "enctests/sources/Sintel-trailer-1080p-png",
           "enctests/sources/1080p"]
 
-url: "https://richardssam.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://scribblemaniac.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Footer last edited timestamp
 last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
